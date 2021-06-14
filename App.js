@@ -1,13 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
+import 'react-native-gesture-handler';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import NavigationContainerr from './navigation/NavigationContainerr';
+import { combineReducers, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import homeReducer from './redux/homeReducer';
+import cartReducer from './redux/cartReducer';
+import OrderReducer from './redux/OrderReducer';
+// import { composeWithDevTools } from 'redux-devtools-extension'
 
-export default function App() {
+const rootReducer = combineReducers({
+  products: homeReducer,
+  cart: cartReducer,
+  order: OrderReducer
+})
+const store = createStore(rootReducer)
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainerr />
+
   );
 }
 
@@ -17,5 +28,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 100
   },
 });
+
+export default () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
